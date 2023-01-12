@@ -1,12 +1,26 @@
 <template>
-  <form class="change-location">
+  <div class="change-location">
     <label for="city">Enter a location for weather information</label>
-    <input type="text" name="city" id="city" class="input-search" />
-  </form>
+    <input
+      type="text"
+      name="city"
+      id="city"
+      class="input-search"
+      :value="inputData"
+      @input="$emit('update:inputData', $event.target.value)"
+    />
+  </div>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      inputData: "",
+    };
+  },
+  emits: ["update:inputData"],
+};
 </script>
 
 <style scoped>
