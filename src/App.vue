@@ -2,22 +2,20 @@
   <div class="container">
     <h1>Weather App</h1>
     <search-input @update:inputData="findLocationDetails($event)" @keypress="fetchWeather"></search-input>
-    <div class="">
-      <img src="https://via.placeholder.com/400x300" class="time card-img-top" alt="" />
+    <div class="" v-if="!!details.main">
+      <img :src="details.main.temp > 16 ? warmUrl : coldUrl" class="time card-img-top" alt="" />
       <div class="icon bg-light mx-auto text-center">
         <!-- icon -->
         <img src="" alt="" />
       </div>
-      <template v-if="!!details.main">
-        <div class="details">
-          <h5 class="">{{ details.name }}, {{ details.sys.country }}</h5>
-          <div class="">Weather condition</div>
-          <div class="">
-            <span>temp</span>
-            <span>&deg;C</span>
-          </div>
+      <div class="details">
+        <h5 class="">{{ details.name }}, {{ details.sys.country }}</h5>
+        <div class="">{{ details.weather[0].description }}</div>
+        <div class="">
+          <span>{{ Math.round(details.main.temp) }}</span>
+          <span>&deg;C</span>
         </div>
-      </template>
+      </div>
     </div>
   </div>
 </template>
@@ -35,6 +33,14 @@ export default {
       locationSearched: "",
       details: {},
     };
+  },
+  computed: {
+    warmUrl() {
+      return require("./assets/warm-bg.jpg");
+    },
+    coldUrl() {
+      return require("./assets/cold-bg.jpg");
+    },
   },
   methods: {
     findLocationDetails(inputValue) {
